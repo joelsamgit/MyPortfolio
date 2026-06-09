@@ -152,6 +152,7 @@
   gap: 25px;
   justify-content: space-between;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  align-self: flex-start;
 }
 
 .tech-info-header {
