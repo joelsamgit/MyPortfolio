@@ -1,0 +1,132 @@
+/* Resume Modal Stylesheet */
+
+.resume-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 4, 6, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2500; /* Extremely high z-index to sit on top of all visual grids */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.resume-modal-container {
+  width: 85vw;
+  height: 85vh;
+  max-width: 1000px;
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+}
+
+/* Header styled in metallic black theme */
+.resume-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.resume-modal-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resume-modal-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.resume-modal-title span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+/* Close Icon Button */
+.resume-modal-close {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #adacac;
+  transition: all 0.3s ease;
+}
+
+.resume-modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.resume-modal-close svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.resume-modal-close:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Document Body Area */
+.resume-modal-body {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #141416; /* Clean backing */
+}
+
+.resume-iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Responsive constraints */
+@media only screen and (max-width: 768px) {
+  .resume-modal-overlay {
+    padding: 10px;
+  }
+  
+  .resume-modal-container {
+    width: 100vw;
+    height: 90vh;
+    border-radius: 16px;
+  }
+  
+  .resume-modal-header {
+    padding: 14px 18px;
+  }
+}

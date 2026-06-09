@@ -1,65 +1,43 @@
-# My Portfolio Website - Overview 🚀
+# Joel Sam - AI & ML Researcher | Developer Portfolio 🚀
 
-This repository contains the open-source version of my personal portfolio website.  
-Feel free to explore the code and use it for learning and inspiration.
-
----
-
-## ⚠️ Usage Notice
-
-This project is shared for learning purposes only.
-
-Please do NOT:
-- Clone or replicate the full website or design
-- Repost it with minor content changes
-- Use this project for commercial/client work
-- Create tutorials or content using this exact project
-
-If you use parts of the code, you must provide proper credit linking back to the original repository.
-
-Build your own version — don’t just copy.
-
-— Moncy Yohannan
+Welcome to my personal portfolio website! This interactive web experience showcases my work as an AI & ML researcher and software developer, featuring 3D interactions, rich animations, and interactive prediction tools.
 
 ---
 
-## 🛠️ Instructions
+## 🛠️ Features
 
-I have modified the GSAP Club plugins using trial versions.  
-⚠️ Note: Trial plugins cannot be used for production or hosting.
-
-For official GSAP Club plugins, refer here:  
-https://gsap.com/docs/v3/Installation/
+- **Interactive 3D Scene**: Custom 3D components built with React Three Fiber and physics-based interactions.
+- **Interactive Tools**: Built-in real-time threat analysis / text classification simulator.
+- **AI Chatbot**: An interactive chatbot helper trained to answer questions about my skills, background, and experience.
+- **Smooth Motion & Effects**: Immersive animations powered by GSAP and Framer Motion.
+- **Futuristic Dark Theme**: Responsive layouts tailored with high-performance CSS and typography.
 
 ---
 
 ## ⚙️ Tech Stack
 
-React • TypeScript • GSAP • Three.js • WebGL • HTML • CSS • JavaScript
+- **Framework & Logic**: React 18, TypeScript, Vite
+- **3D Graphics & Physics**: Three.js, `@react-three/fiber`, `@react-three/drei`, `@react-three/rapier`
+- **Animations**: GSAP (GreenSock), `@gsap/react`, Framer Motion
+- **Styling**: Vanilla CSS, React Icons
 
 ---
 
-## 🎨 Assets Usage
+## 🚀 Running Locally
 
-Some 3D assets included in this repository are free to use for learning purposes.
+To start the local development server:
 
-However:
-
-- The original 3D avatar used on my live portfolio is NOT included in this repository
-- That avatar is a custom asset created over ~1 month
-- It is not open source and not available for reuse
-
-Any usage, extraction, or redistribution of that avatar from my live website is strictly prohibited.
-
----
-
-![Protfolio-Preview](https://github.com/user-attachments/assets/3c4557e7-6392-4928-b8a9-7b2476ef4edd)
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the Vite server:
+   ```bash
+   npm run dev
+   ```
 
 ---
 
-## 📄 License
+*Inspired by Moncy Yohannan's portfolio project.*
 
-This project is licensed under the Personal Portfolio License (PPL) v1.0.
-
-See the LICENSE file for full details
-
+https://github.com/MoncyDev/Portfolio-Website.git

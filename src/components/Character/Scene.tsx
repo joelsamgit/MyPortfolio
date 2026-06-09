@@ -1,159 +1,202 @@
 import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import setCharacter from "./utils/character";
-import setLighting from "./utils/lighting";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 import { useLoading } from "../../context/LoadingProvider";
-import handleResize from "./utils/resizeUtils";
-import {
-  handleMouseMove,
-  handleTouchEnd,
-  handleHeadRotation,
-  handleTouchMove,
-} from "./utils/mouseUtils";
-import setAnimations from "./utils/animationUtils";
 import { setProgress } from "../Loading";
+import { setCharTimeline, setAllTimeline } from "../utils/GsapScroll";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const Scene = () => {
-  const canvasDiv = useRef<HTMLDivElement | null>(null);
-  const hoverDivRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef(new THREE.Scene());
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const currentFrameRef = useRef(0);
+  const frameRequestRef = useRef<number | null>(null);
   const { setLoading } = useLoading();
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
 
-  const [character, setChar] = useState<THREE.Object3D | null>(null);
-  useEffect(() => {
-    if (canvasDiv.current) {
-      let rect = canvasDiv.current.getBoundingClientRect();
-      let container = { width: rect.width, height: rect.height };
-      const aspect = container.width / container.height;
-      const scene = sceneRef.current;
+  const getFramePath = (index: number) => {
+    const paddedIndex = String(index).padStart(2, "0");
+    const delay = index % 3 === 1 ? "0.066s" : "0.067s";
+    return `/sequence/frame_${paddedIndex}_delay-${delay}.png`;
+  };
 
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true,
-      });
-      renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1;
-      canvasDiv.current.appendChild(renderer.domElement);
+  const drawImageCover = (
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    canvasWidth: number,
+    canvasHeight: number
+  ) => {
+    const imgWidth = img.naturalWidth || img.width;
+    const imgHeight = img.naturalHeight || img.height;
 
-      const camera = new THREE.PerspectiveCamera(14.5, aspect, 0.1, 1000);
-      camera.position.z = 10;
-      camera.position.set(0, 13.1, 24.7);
-      camera.zoom = 1.1;
-      camera.updateProjectionMatrix();
+    const imgRatio = imgWidth / imgHeight;
+    const canvasRatio = canvasWidth / canvasHeight;
 
-      let headBone: THREE.Object3D | null = null;
-      let screenLight: any | null = null;
-      let mixer: THREE.AnimationMixer;
+    let drawWidth = canvasWidth;
+    let drawHeight = canvasHeight;
+    let offsetX = 0;
+    let offsetY = 0;
 
-      const clock = new THREE.Clock();
-
-      const light = setLighting(scene);
-      let progress = setProgress((value) => setLoading(value));
-      const { loadCharacter } = setCharacter(renderer, scene, camera);
-
-      loadCharacter().then((gltf) => {
-        if (gltf) {
-          const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
-          mixer = animations.mixer;
-          let character = gltf.scene;
-          setChar(character);
-          scene.add(character);
-          headBone = character.getObjectByName("spine006") || null;
-          screenLight = character.getObjectByName("screenlight") || null;
-          progress.loaded().then(() => {
-            setTimeout(() => {
-              light.turnOnLights();
-              animations.startIntro();
-            }, 2500);
-          });
-          window.addEventListener("resize", () =>
-            handleResize(renderer, camera, canvasDiv, character)
-          );
-        }
-      });
-
-      let mouse = { x: 0, y: 0 },
-        interpolation = { x: 0.1, y: 0.2 };
-
-      const onMouseMove = (event: MouseEvent) => {
-        handleMouseMove(event, (x, y) => (mouse = { x, y }));
-      };
-      let debounce: number | undefined;
-      const onTouchStart = (event: TouchEvent) => {
-        const element = event.target as HTMLElement;
-        debounce = setTimeout(() => {
-          element?.addEventListener("touchmove", (e: TouchEvent) =>
-            handleTouchMove(e, (x, y) => (mouse = { x, y }))
-          );
-        }, 200);
-      };
-
-      const onTouchEnd = () => {
-        handleTouchEnd((x, y, interpolationX, interpolationY) => {
-          mouse = { x, y };
-          interpolation = { x: interpolationX, y: interpolationY };
-        });
-      };
-
-      document.addEventListener("mousemove", (event) => {
-        onMouseMove(event);
-      });
-      const landingDiv = document.getElementById("landingDiv");
-      if (landingDiv) {
-        landingDiv.addEventListener("touchstart", onTouchStart);
-        landingDiv.addEventListener("touchend", onTouchEnd);
-      }
-      const animate = () => {
-        requestAnimationFrame(animate);
-        if (headBone) {
-          handleHeadRotation(
-            headBone,
-            mouse.x,
-            mouse.y,
-            interpolation.x,
-            interpolation.y,
-            THREE.MathUtils.lerp
-          );
-          light.setPointLight(screenLight);
-        }
-        const delta = clock.getDelta();
-        if (mixer) {
-          mixer.update(delta);
-        }
-        renderer.render(scene, camera);
-      };
-      animate();
-      return () => {
-        clearTimeout(debounce);
-        scene.clear();
-        renderer.dispose();
-        window.removeEventListener("resize", () =>
-          handleResize(renderer, camera, canvasDiv, character!)
-        );
-        if (canvasDiv.current) {
-          canvasDiv.current.removeChild(renderer.domElement);
-        }
-        if (landingDiv) {
-          document.removeEventListener("mousemove", onMouseMove);
-          landingDiv.removeEventListener("touchstart", onTouchStart);
-          landingDiv.removeEventListener("touchend", onTouchEnd);
-        }
-      };
+    if (canvasRatio > imgRatio) {
+      drawHeight = canvasWidth / imgRatio;
+      offsetY = (canvasHeight - drawHeight) * 0.12; // Shift down: crop only 12% from the top
+    } else {
+      drawWidth = canvasHeight * imgRatio;
+      offsetX = (canvasWidth - drawWidth) / 2;
     }
+
+    // Force high-quality image smoothing algorithms (bicubic/Lanczos)
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
+    // Draw at whole integer pixel offsets to completely bypass blurry sub-pixel antialiasing
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(
+      img,
+      Math.round(offsetX),
+      Math.round(offsetY),
+      Math.round(drawWidth),
+      Math.round(drawHeight)
+    );
+  };
+
+  const drawFrame = (index: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const img = imagesRef.current[index];
+    if (img && img.complete) {
+      drawImageCover(ctx, img, canvas.width, canvas.height);
+      currentFrameRef.current = index;
+    }
+  };
+
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
+
+    drawFrame(currentFrameRef.current);
+  };
+
+  // Preload all frames on mount
+  useEffect(() => {
+    let progress = setProgress((value) => setLoading(value));
+    const totalFrames = 96;
+    let loadedCount = 0;
+    const images: HTMLImageElement[] = [];
+
+    for (let i = 0; i < totalFrames; i++) {
+      const img = new Image();
+      img.src = getFramePath(i);
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === totalFrames) {
+          progress.loaded().then(() => {
+            setAllImagesLoaded(true);
+          });
+        }
+      };
+      img.onerror = () => {
+        console.error(`Failed to load frame: ${img.src}`);
+        loadedCount++;
+        if (loadedCount === totalFrames) {
+          progress.loaded().then(() => {
+            setAllImagesLoaded(true);
+          });
+        }
+      };
+      images.push(img);
+    }
+    imagesRef.current = images;
+
+    return () => {
+      if (frameRequestRef.current !== null) {
+        cancelAnimationFrame(frameRequestRef.current);
+      }
+    };
   }, []);
 
+  // Initialize Canvas and Timelines once preloading is complete
+  useEffect(() => {
+    if (allImagesLoaded) {
+      resizeCanvas();
+      drawFrame(0);
+      setCharTimeline();
+      setAllTimeline();
+      ScrollTrigger.refresh();
+    }
+  }, [allImagesLoaded]);
+
+
+
+  // Track window resizing and refresh GSAP timelines
+  useEffect(() => {
+    if (!allImagesLoaded) return;
+
+    const handleResize = () => {
+      resizeCanvas();
+
+      // Clear GSAP triggers (except "work") and rebuild
+      const workTrigger = ScrollTrigger.getById("work");
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger !== workTrigger) {
+          trigger.kill();
+        }
+      });
+      setCharTimeline();
+      setAllTimeline();
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [allImagesLoaded]);
+
+  // Framer Motion Scroll Integration
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (!allImagesLoaded) return;
+
+    const whatIDoElement = document.querySelector(".whatIDO") as HTMLElement;
+    if (!whatIDoElement) return;
+
+    // Speed up playback by 2x by dividing the target scroll height by 2
+    const bottom = (whatIDoElement.offsetTop + whatIDoElement.offsetHeight) / 2;
+    const progress = Math.max(0, Math.min(1, latest / bottom));
+    const targetFrame = Math.round(progress * 95);
+
+    if (frameRequestRef.current !== null) {
+      cancelAnimationFrame(frameRequestRef.current);
+    }
+
+    frameRequestRef.current = requestAnimationFrame(() => {
+      drawFrame(targetFrame);
+      frameRequestRef.current = null;
+    });
+  });
+
   return (
-    <>
-      <div className="character-container">
-        <div className="character-model" ref={canvasDiv}>
-          <div className="character-rim"></div>
-          <div className="character-hover" ref={hoverDivRef}></div>
-        </div>
+    <div className={`character-container ${allImagesLoaded ? "character-loaded" : ""}`}>
+      <div className="character-model" ref={containerRef}>
+        <canvas ref={canvasRef} style={{ pointerEvents: "none" }} />
+        <div className="character-rim"></div>
       </div>
-    </>
+    </div>
   );
 };
 

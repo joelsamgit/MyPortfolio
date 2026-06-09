@@ -9,7 +9,11 @@ import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
 import HoverLinks from "./HoverLinks";
 
-const SocialIcons = () => {
+interface SocialIconsProps {
+  onOpenResume: () => void;
+}
+
+const SocialIcons = ({ onOpenResume }: SocialIconsProps) => {
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
 
@@ -60,27 +64,34 @@ const SocialIcons = () => {
     <div className="icons-section">
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
-          <a href="https://github.com" target="_blank">
+          <a href="https://github.com/joelsamgit" target="_blank">
             <FaGithub />
           </a>
         </span>
         <span>
-          <a href="https://www.linkedin.com" target="_blank">
+          <a href="https://www.linkedin.com/in/joel-sam-ai/" target="_blank">
             <FaLinkedinIn />
           </a>
         </span>
         <span>
-          <a href="https://x.com" target="_blank">
+          <a href="https://x.com/JoelSam_13" target="_blank">
             <FaXTwitter />
           </a>
         </span>
         <span>
-          <a href="https://www.instagram.com" target="_blank">
+          <a href="https://www.instagram.com/_incineroar_13/" target="_blank">
             <FaInstagram />
           </a>
         </span>
       </div>
-      <a className="resume-button" href="#">
+      <a 
+        className="resume-button" 
+        href="/Joel Sam CV.pdf" 
+        onClick={(e) => {
+          e.preventDefault();
+          onOpenResume();
+        }}
+      >
         <HoverLinks text="RESUME" />
         <span>
           <TbNotes />

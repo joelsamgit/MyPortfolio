@@ -6,9 +6,11 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis
-          dolores numquam iusto Ratione earum ducimus autem id iure pariatur
-          dolorum quae maiores.
+          Motivated B.Tech Computer Science (AI & ML) student at Karunya Institute of Technology and Science with a strong 
+          interest in Machine Learning and Computer Vision. Experienced in developing AI-based applications using Python, 
+          Retrieval Augmented Generation (RAG). Skilled in working with frameworks and tools such as LangChain, Hugging 
+          Face, and Git. Passionate about applying AI technologies to solve real-world problems and continuously learning 
+          emerging technologies.
         </p>
       </div>
     </div>

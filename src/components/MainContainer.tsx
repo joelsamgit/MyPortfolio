@@ -9,10 +9,13 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import Chatbot from "./Chatbot";
+import ResumeModal from "./ResumeModal";
 
 const TechStack = lazy(() => import("./TechStack"));
 
 const MainContainer = ({ children }: PropsWithChildren) => {
+  const [isResumeOpen, setIsResumeOpen] = useState<boolean>(false);
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
@@ -33,7 +36,9 @@ const MainContainer = ({ children }: PropsWithChildren) => {
     <div className="container-main">
       <Cursor />
       <Navbar />
-      <SocialIcons />
+      <SocialIcons onOpenResume={() => setIsResumeOpen(true)} />
+      <Chatbot />
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
       {isDesktopView && children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
@@ -44,9 +49,12 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Career />
             <Work />
             {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
-                <TechStack />
-              </Suspense>
+              <>
+                <div style={{ height: "70vh" }} />
+                <Suspense fallback={<div>Loading....</div>}>
+                  <TechStack />
+                </Suspense>
+              </>
             )}
             <Contact />
           </div>

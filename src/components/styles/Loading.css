@@ -3,7 +3,7 @@
   width: 100vw;
   height: var(--vh);
   /* background-image: linear-gradient(#cbb1ff, #d8c4ff); */
-  background-color: #eae5ec;
+  background-color: #08080a;
   z-index: 999999999;
   display: flex;
   place-items: center;
@@ -70,7 +70,7 @@
   overflow: visible;
 }
 .loading-hover {
-  background-color: #a87cff;
+  background-color: rgba(255, 255, 255, 0.15);
   width: 250px;
   height: 120px;
   position: absolute;
@@ -191,7 +191,7 @@
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  color: var(--backgroundColor);
+  color: #ffffff;
 }
 .loader-title {
   font-weight: 700;
@@ -257,7 +257,7 @@
   position: relative;
   width: 10px;
   height: 60px;
-  background-color: #000;
+  background-color: #3a3a3c;
   display: block;
 }
 .loaderGame-line:nth-child(2n) {
@@ -272,7 +272,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #a87cff;
+  background-color: #ffffff;
   animation: ball25 7s infinite;
   transform: translateY(10px);
   animation-timing-function: cubic-bezier(0.3, 1.18, 0.63, 1.28);
@@ -283,7 +283,7 @@
   left: 0;
   width: 100%;
   transform: translateY(-50%);
-  color: var(--backgroundColor);
+  color: rgba(255, 255, 255, 0.05);
   font-size: 60px;
   font-weight: 600;
   text-transform: uppercase;
@@ -296,7 +296,7 @@
   content: "";
   width: 20px;
   height: 20px;
-  background-color: var(--backgroundColor);
+  background-color: rgba(255, 255, 255, 0.05);
   position: absolute;
   top: 50%;
   border-radius: 50px;

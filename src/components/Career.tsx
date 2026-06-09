@@ -15,43 +15,37 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Full Stack Developer Intern</h4>
+                <h5>Octanet Solution Pvt Ltd</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2024</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Developed a Pet Adoption System using HTML, CSS, and JavaScript, and a fully functional To-Do List application.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Machine Learning Intern</h4>
+                <h5>Skillforge</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>04/2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Developed a Regression Model to predict job salaries and created a classification model to predict the type of cyberbullying on social media.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Generative AI Intern</h4>
+                <h5>Young Minds Solution Pvt Ltd</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>06/2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Developed a Micro-Organism Classification Model and gained hands-on experience in various Machine Learning and Deep Learning models.
             </p>
           </div>
         </div>

@@ -6,11 +6,17 @@
 .work-section h2 > span {
   color: var(--accentColor);
 }
+.pin-spacer {
+  z-index: 2 !important;
+}
 .work-section {
   transition: 0s;
   height: 100vh;
   box-sizing: border-box;
   will-change: transform;
+  position: relative;
+  z-index: 2;
+  background-color: var(--backgroundColor);
 }
 .work-container {
   margin: auto;
