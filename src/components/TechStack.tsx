@@ -6,7 +6,7 @@ import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import "./styles/TechStack.css";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
