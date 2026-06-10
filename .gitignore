@@ -27,4 +27,3 @@ dist-ssr
 backup/
 .env
 
-api/chat.tsapi/chat.ts
